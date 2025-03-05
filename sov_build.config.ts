@@ -12,6 +12,15 @@ const buildConfig: BuildConfig = {
         modulesToExternalize: ["inquirer", "vite"],
       },
     },
+    {
+      input: "src/scripts/update-all.ts",
+      output: "dist/index",
+      options: {
+        type: "vanilla",
+        isPackage: true,
+        modulesToExternalize: ["inquirer", "vite"],
+      },
+    },
   ],
 };
 
