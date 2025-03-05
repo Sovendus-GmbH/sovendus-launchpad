@@ -1,6 +1,6 @@
 {
   "name": "sovendus-launchpad",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Tool for managing sub repositories in a repo, without using git submodules",
   "license": "GPL-3.0-only",
   "bin": {
@@ -13,9 +13,9 @@
   ],
   "exports": {
     "./types": {
-        "types": "./dist/index.d.ts",
-        "import": "./dist/index.mjs",
-        "require": "./dist/index.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
     }
   },
   "scripts": {
