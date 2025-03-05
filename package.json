@@ -4,7 +4,7 @@
   "description": "Tool for managing sub repositories in a repo, without using git submodules",
   "license": "GPL-3.0-only",
   "bin": {
-    "launchpad": "dist/launchpad.mjs"
+    "sovendus-launchpad": "dist/launchpad.mjs"
   },
   "private": false,
   "type": "module",
