@@ -1,0 +1,12 @@
+.github
+.vscode
+node_modules/
+src/
+.gitignore
+eslint.config.mjs
+postcss.config.mjs
+sov_build.config.ts
+sov_launchpad.config.ts
+sov_release.config.ts
+tsconfig.json
+yarn.lock

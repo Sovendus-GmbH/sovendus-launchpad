@@ -29,10 +29,7 @@
     ],
     "author": "Marcus Brandstaetter - Sovendus GmbH",
     "dependencies": {
-        "commander": "13.1.0",
         "inquirer": "^12.4.2",
-        "sovendus-builder": "^1.2.2",
-        "typescript": "^5.8.2",
         "vite": "^6.2.0"
     },
     "devDependencies": {
@@ -55,12 +52,13 @@
         "fs-extra": "11.3.0",
         "prettier": "3.5.3",
         "prettier-eslint": "16.3.0",
+        "sovendus-builder": "1.2.2",
         "prettier-plugin-sort-json": "4.1.1",
-        "sovendus-release-tool": "^1.1.1",
-        "tsx": "^4.19.3",
+        "sovendus-release-tool": "1.1.1",
+        "tsx": "4.19.3",
         "typescript": "5.8.2",
         "typescript-eslint": "8.26.0",
-        "vite-plugin-dts": "^4.5.3",
+        "vite-plugin-dts": "4.5.3",
         "vitest": "3.0.7"
     }
 }
