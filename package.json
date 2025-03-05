@@ -1,64 +1,64 @@
 {
-    "name": "sovendus-launchpad",
-    "version": "1.0.1",
-    "description": "Tool for managing sub repositories in a repo, without using git submodules",
-    "license": "GPL-3.0-only",
-    "bin": {
-        "pad": "dist/launchpad.mjs"
-    },
-    "private": false,
-    "type": "module",
-    "files": [
-        "dist/**/*"
-    ],
-    "exports": {
-        "./types": {
-            "types": "./dist/types/index.d.ts"
-        }
-    },
-    "scripts": {
-        "build": "sovendus-builder build",
-        "dev": "tsx src/scripts/launchpad.ts",
-        "lint": "eslint --fix",
-        "pub": "sovendus-release-tool"
-    },
-    "keywords": [
-        "sovendus",
-        "git",
-        "repository"
-    ],
-    "author": "Marcus Brandstaetter - Sovendus GmbH",
-    "dependencies": {
-        "inquirer": "^12.4.2",
-        "vite": "^6.2.0"
-    },
-    "devDependencies": {
-        "@types/eslint": "9.6.1",
-        "@types/fs-extra": "11.0.4",
-        "@types/inquirer": "9.0.7",
-        "@types/node": "^22.13.9",
-        "@typescript-eslint/eslint-plugin": "8.26.0",
-        "@typescript-eslint/parser": "8.26.0",
-        "eslint": "9.21.0",
-        "eslint-config-prettier": "10.0.2",
-        "eslint-plugin-import": "2.31.0",
-        "eslint-plugin-node": "11.1.0",
-        "eslint-plugin-prettier": "5.2.3",
-        "eslint-plugin-promise": "7.2.1",
-        "eslint-plugin-react-compiler": "19.0.0-beta-40c6c23-20250301",
-        "eslint-plugin-react-hooks": "5.2.0",
-        "eslint-plugin-simple-import-sort": "12.1.1",
-        "eslint-plugin-unused-imports": "4.1.4",
-        "fs-extra": "11.3.0",
-        "prettier": "3.5.3",
-        "prettier-eslint": "16.3.0",
-        "sovendus-builder": "1.2.2",
-        "prettier-plugin-sort-json": "4.1.1",
-        "sovendus-release-tool": "1.1.1",
-        "tsx": "4.19.3",
-        "typescript": "5.8.2",
-        "typescript-eslint": "8.26.0",
-        "vite-plugin-dts": "4.5.3",
-        "vitest": "3.0.7"
+  "name": "sovendus-launchpad",
+  "version": "1.0.1",
+  "description": "Tool for managing sub repositories in a repo, without using git submodules",
+  "license": "GPL-3.0-only",
+  "bin": {
+    "pad": "dist/launchpad.mjs"
+  },
+  "private": false,
+  "type": "module",
+  "files": [
+    "dist/**/*"
+  ],
+  "exports": {
+    "./types": {
+      "types": "./dist/types/index.d.ts"
     }
+  },
+  "scripts": {
+    "build": "sovendus-builder build",
+    "dev": "tsx src/scripts/launchpad.ts",
+    "lint": "eslint --fix",
+    "pub": "sovendus-release-tool"
+  },
+  "keywords": [
+    "sovendus",
+    "git",
+    "repository"
+  ],
+  "author": "Marcus Brandstaetter - Sovendus GmbH",
+  "dependencies": {
+    "inquirer": "^12.4.2",
+    "vite": "^6.2.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "9.6.1",
+    "@types/fs-extra": "11.0.4",
+    "@types/inquirer": "9.0.7",
+    "@types/node": "^22.13.9",
+    "@typescript-eslint/eslint-plugin": "8.26.0",
+    "@typescript-eslint/parser": "8.26.0",
+    "eslint": "9.21.0",
+    "eslint-config-prettier": "10.0.2",
+    "eslint-plugin-import": "2.31.0",
+    "eslint-plugin-node": "11.1.0",
+    "eslint-plugin-prettier": "5.2.3",
+    "eslint-plugin-promise": "7.2.1",
+    "eslint-plugin-react-compiler": "19.0.0-beta-40c6c23-20250301",
+    "eslint-plugin-react-hooks": "5.2.0",
+    "eslint-plugin-simple-import-sort": "12.1.1",
+    "eslint-plugin-unused-imports": "4.1.4",
+    "fs-extra": "11.3.0",
+    "prettier": "3.5.3",
+    "prettier-eslint": "16.3.0",
+    "sovendus-builder": "1.2.2",
+    "prettier-plugin-sort-json": "4.1.1",
+    "sovendus-release-tool": "1.1.1",
+    "tsx": "4.19.3",
+    "typescript": "5.8.2",
+    "typescript-eslint": "8.26.0",
+    "vite-plugin-dts": "4.5.3",
+    "vitest": "3.0.7"
+  }
 }
