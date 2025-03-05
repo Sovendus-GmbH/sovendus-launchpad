@@ -82,9 +82,9 @@ export async function loadConfig(
     const config = module.default;
     cleanCompiledConfig(compiledConfigPath);
 
-    if (!config || !Array.isArray(config.packages)) {
+    if (!config || typeof config.packages !== "object") {
       throw new Error(
-        "Invalid config format. Ensure the config exports a default object with a 'packages' array. Check the docs for more info.",
+        "Invalid config format. Ensure the config exports a default object with a 'packages' object. Check the docs for more info.",
       );
     }
     return config;
