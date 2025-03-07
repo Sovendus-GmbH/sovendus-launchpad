@@ -8,8 +8,18 @@ const buildConfig: BuildConfig = {
       output: "dist/launchpad",
       options: {
         type: "vanilla",
-        isPackage: true,
-        modulesToExternalize: ["inquirer", "vite"],
+        packageConfig: {
+          dtsEntryRoot: "src",
+          dtsInclude: ["src/**/*"],
+          isPackage: true,
+        },
+        modulesToExternalize: [
+          "inquirer",
+          "chalk",
+          "vite",
+          "simple-git",
+          "spawn",
+        ],
       },
     },
     {
@@ -17,8 +27,18 @@ const buildConfig: BuildConfig = {
       output: "dist/index",
       options: {
         type: "vanilla",
-        isPackage: true,
-        modulesToExternalize: ["inquirer", "vite"],
+        packageConfig: {
+          dtsEntryRoot: "src",
+          dtsInclude: ["src/**/*"],
+          isPackage: true,
+        },
+        modulesToExternalize: [
+          "inquirer",
+          "chalk",
+          "vite",
+          "simple-git",
+          "spawn",
+        ],
       },
     },
   ],

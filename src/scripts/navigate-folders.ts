@@ -1,10 +1,11 @@
 /* eslint-disable no-console */
+import { exec } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
+import { promisify } from "node:util";
+
 import chalk from "chalk";
-import { exec } from "child_process";
-import fs from "fs";
 import inquirer from "inquirer";
-import path from "path";
-import { promisify } from "util";
 
 import type {
   SovendusLaunchpadConfig,
