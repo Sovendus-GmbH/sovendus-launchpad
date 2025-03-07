@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, renameSync, rmSync, unlinkSync } from "node:fs";
-import { dirname, join, resolve } from "node:path";
+import { dirname, join, parse, resolve } from "node:path";
 
 import { build } from "vite";
 
@@ -7,6 +7,17 @@ import type { SovendusLaunchpadConfig } from "../types/types.js";
 import { logger, loggerError } from "./logger.js";
 
 export const DEFAULT_CONFIG_PATH = "sov_launchpad.config.ts";
+
+// Store the config directory once found for reference
+let configRootDir: string | null = null;
+
+// Get the root directory from the config file location
+export function getRootDirectory(): string {
+  if (!configRootDir) {
+    throw new Error("Config has not been loaded yet. Call loadConfig first.");
+  }
+  return configRootDir;
+}
 
 async function getCompiledConfigPath(configPath: string): Promise<string> {
   const outputFileName = `sov_release.config.tmp.${Math.round(Math.random() * 100000)}.cjs`;
@@ -62,17 +73,69 @@ function cleanCompiledConfig(compiledConfigPath: string): void {
 }
 
 /**
+ * Finds the config file by searching from the current directory up to the root.
+ * @param configFileName The name of the config file to find
+ * @returns The absolute path of the config file if found, null otherwise
+ */
+function findConfigUp(configFileName: string): string | null {
+  let currentDir = process.cwd();
+  const { root } = parse(currentDir);
+
+  // Search up to the root directory
+  while (currentDir !== root) {
+    const filePath = join(currentDir, configFileName);
+    if (existsSync(filePath)) {
+      return filePath;
+    }
+    // Move up one directory
+    const parentDir = dirname(currentDir);
+    // If we're already at the root, break to avoid infinite loop
+    if (parentDir === currentDir) {
+      break;
+    }
+    currentDir = parentDir;
+  }
+
+  // Check the root directory
+  const rootConfigPath = join(root, configFileName);
+  if (existsSync(rootConfigPath)) {
+    return rootConfigPath;
+  }
+
+  return null;
+}
+
+/**
  * Loads and returns the configuration.
+ * @param explicitConfigPath Optional path to the config file
  */
 export async function loadConfig(
-  configPath: string,
+  explicitConfigPath?: string,
 ): Promise<SovendusLaunchpadConfig> {
-  logger(`Using config file: ${configPath}`);
-  const resolvedConfigPath = resolve(process.cwd(), configPath);
+  const configPath = explicitConfigPath || DEFAULT_CONFIG_PATH;
+  let resolvedConfigPath: string;
 
-  if (!existsSync(resolvedConfigPath)) {
-    throw new Error(`Config file not found: ${resolvedConfigPath}`);
+  if (explicitConfigPath) {
+    // If explicit path is provided, use it directly
+    resolvedConfigPath = resolve(process.cwd(), configPath);
+    if (!existsSync(resolvedConfigPath)) {
+      throw new Error(`Config file not found: ${resolvedConfigPath}`);
+    }
+  } else {
+    // Otherwise search up from cwd
+    const foundConfigPath = findConfigUp(configPath);
+    if (!foundConfigPath) {
+      throw new Error(
+        `Config file ${configPath} not found in current or parent directories`,
+      );
+    }
+    resolvedConfigPath = foundConfigPath;
   }
+
+  // Store the config directory as the root directory for the application
+  configRootDir = dirname(resolvedConfigPath);
+  logger(`Using config file: ${resolvedConfigPath}`);
+  logger(`Root directory set to: ${configRootDir}`);
 
   try {
     const compiledConfigPath = await getCompiledConfigPath(resolvedConfigPath);

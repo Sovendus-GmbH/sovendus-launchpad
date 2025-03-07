@@ -4,6 +4,8 @@ import path from "node:path";
 import readline from "node:readline";
 import { promisify } from "node:util";
 
+import simpleGit from "simple-git";
+
 import type {
   SovendusLaunchpadConfig,
   SovendusLaunchpadFolder,
@@ -12,6 +14,7 @@ import type {
 import { logger, loggerError } from "./logger.js";
 
 const execAsync = promisify(exec);
+const git = simpleGit;
 
 // Create readline interface for user prompts
 const rl = readline.createInterface({
@@ -61,8 +64,8 @@ export function getAllRepos(config: SovendusLaunchpadConfig): {
 }
 
 // Check if repository exists locally
-export function repoExists(repoPath: string[]): boolean {
-  const folderPath = path.join(process.cwd(), ...repoPath);
+export function repoExists(repoPath: string[], rootDir?: string): boolean {
+  const folderPath = path.join(rootDir || process.cwd(), ...repoPath);
   return (
     fs.existsSync(folderPath) && fs.existsSync(path.join(folderPath, ".git"))
   );
@@ -71,28 +74,37 @@ export function repoExists(repoPath: string[]): boolean {
 // Clone a repository
 export async function cloneRepo(
   repoUrl: string,
-  repoPath: string[],
-  branch: string,
+  repoPath: string,
+  branch = "main",
+  rootDir: string,
 ): Promise<void> {
-  if (!repoUrl) {
-    logger(`Skipping ${repoPath.join("/")} - No repository URL provided`);
-    return;
-  }
-
-  const folderPath = path.join(process.cwd(), ...repoPath);
-
-  // Create parent directories if they don't exist
-  const parentDir = path.dirname(folderPath);
-  if (!fs.existsSync(parentDir)) {
-    fs.mkdirSync(parentDir, { recursive: true });
-  }
-
   try {
-    logger(`Cloning ${repoUrl} into ${folderPath}...`);
-    await execAsync(`git clone -b ${branch} ${repoUrl} ${folderPath}`);
-    logger(`Successfully cloned ${repoPath.join("/")}`);
+    // Ensure we use rootDir when determining the full path
+    const fullPath = path.isAbsolute(repoPath)
+      ? repoPath
+      : path.join(rootDir, repoPath);
+
+    // Create parent directories if they don't exist
+    const parentDir = path.dirname(fullPath);
+    if (!fs.existsSync(parentDir)) {
+      fs.mkdirSync(parentDir, { recursive: true });
+    }
+
+    logger(`Cloning ${repoUrl} into ${fullPath}...`);
+
+    // Use simple-git to clone the repo with the full path
+    await git().clone(repoUrl, fullPath);
+
+    // Change directory to the cloned repo
+    const repo = git(fullPath);
+
+    // Check out the specified branch
+    await repo.checkout(branch);
+
+    logger(`Repository cloned and checked out branch: ${branch}`);
   } catch (error) {
-    loggerError(`Failed to clone ${repoPath.join("/")}:`, error);
+    loggerError(`Failed to clone repository:`, error);
+    throw error;
   }
 }
 
@@ -101,8 +113,9 @@ export async function updateRepo(
   repoPath: string[],
   branch: string,
   force: boolean = false,
+  rootDir?: string,
 ): Promise<void> {
-  const folderPath = path.join(process.cwd(), ...repoPath);
+  const folderPath = path.join(rootDir || process.cwd(), ...repoPath);
 
   try {
     // Check for local changes
@@ -141,9 +154,10 @@ export async function updateRepo(
 }
 
 // Update the root repository (the sovendus-launchpad itself)
-export async function updateRootRepo(force: boolean = false): Promise<void> {
-  const rootPath = process.cwd();
-
+export async function updateRootRepo(
+  force: boolean = false,
+  rootPath: string,
+): Promise<void> {
   try {
     // Check for local changes
     const { stdout: statusOutput } = await execAsync("git status --porcelain", {

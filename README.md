@@ -36,6 +36,11 @@ Clones any repositories defined in the config that don't exist locally
 
 Updates all repositories (clone missing ones, pull latest changes for existing ones)
 
+### Navigate Folders
+
+Browse through the folder structure and open selected directories in Visual Studio Code.
+This is helpful for quick navigation through your repository structure.
+
 ## Configuration
 
 Repositories are defined in `sov_launchpad.config.ts`. Each repository entry needs:
