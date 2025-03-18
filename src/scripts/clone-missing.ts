@@ -7,14 +7,13 @@ import {
   closePrompt,
   getAllRepos,
   repoExists,
-  updateRootRepo,
 } from "../utils/repo-utils.js";
 
 export async function cloneMissingRepos(
   rootDir: string,
   config: SovendusLaunchpadConfig,
 ): Promise<void> {
-  await updateRootRepo(false, rootDir);
+  // await updateRootRepo(false, rootDir);
 
   logger("Checking for missing repositories...");
   const repos = getAllRepos(config);
