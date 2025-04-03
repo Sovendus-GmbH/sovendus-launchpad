@@ -4,9 +4,9 @@ const buildConfig: BuildConfig = {
   foldersToClean: ["dist"],
   filesToCompile: [
     {
-      input: "src/scripts/launchpad.ts",
-      output: "dist/launchpad",
-      options: {
+      sovOptions: {
+        input: "src/scripts/launchpad.ts",
+        output: "dist/launchpad",
         type: "vanilla",
         packageConfig: {
           dtsEntryRoot: "src",
@@ -23,9 +23,9 @@ const buildConfig: BuildConfig = {
       },
     },
     {
-      input: "src/scripts/update-all.ts",
-      output: "dist/index",
-      options: {
+      sovOptions: {
+        input: "src/scripts/update-all.ts",
+        output: "dist/index",
         type: "vanilla",
         packageConfig: {
           dtsEntryRoot: "src",
